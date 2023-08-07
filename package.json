@@ -1,0 +1,42 @@
+{
+    "name": "webxwiz-task",
+    "description": "Technical assignment for WebXwiz",
+    "version": "1.0.0",
+    "type": "module",
+    "imports": {
+        "#root/*": "./dist/*"
+    },
+    "scripts": {
+        "build": "tsc",
+        "launch": "node dist/main.js",
+        "start": "run-s build launch",
+        "format": "prettier --write src/**/*.ts",
+        "test": "vitest run",
+        "test-components": "vitest run --dir ./src/components"
+    },
+    "dependencies": {
+        "@fastify/type-provider-typebox": "^3.3.0",
+        "@paralleldrive/cuid2": "^2.2.1",
+        "@sinclair/typebox": "^0.29.6",
+        "ajv": "^8.12.0",
+        "ajv-formats": "^2.1.1",
+        "bcryptjs": "^2.4.3",
+        "close-with-grace": "^1.2.0",
+        "fastify": "^4.20.0",
+        "fastify-plugin": "^4.5.1",
+        "jsonwebtoken": "^9.0.1",
+        "mongoose": "^7.4.2",
+        "pino": "^8.14.1",
+        "pino-pretty": "^10.1.0",
+        "yaml": "^2.3.1"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/jsonwebtoken": "^9.0.2",
+        "@types/node": "^20.4.4",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.0.0",
+        "typescript": "^5.1.6",
+        "vitest": "^0.33.0"
+    }
+}

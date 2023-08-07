@@ -1,0 +1,32 @@
+port: 5000
+externalUrl: http://localhost:5000
+trustProxy: false
+# listen on 0.0.0.0 instead of 127.0.0.1
+# should be `true` for Docker deployment
+expose: true
+
+jwt:
+    secret: E/=_r+a]H'8wHG](99"9'^X?K~+U\#]Gmged
+    expiresIn: 1d
+
+log:
+    console: true
+    file: logs/main.log
+
+database:
+    host: localhost
+    port: 4306
+    database: main
+    user: admin
+    password: password
+
+mailer:
+    host: smtp.ethereal.email
+    port: 587
+    auth:
+        user: willis.grady@ethereal.email
+        pass: 8WAQYgceSW5MghHU7Y
+
+redis:
+    host: localhost
+    port: 7379
