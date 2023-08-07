@@ -1,6 +1,6 @@
 import ajv from 'ajv'
 import ajvFormats from 'ajv-formats'
-import type { TAnySchema, Static } from '@sinclair/typebox'
+import type { TAnySchema, Static } from '@fastify/type-provider-typebox'
 
 export const validator = new ajv.default({
     strict: true,

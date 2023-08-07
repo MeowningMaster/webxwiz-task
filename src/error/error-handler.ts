@@ -1,7 +1,7 @@
-import { Plugin } from '#root/server/plugin-adapter.js'
+import { fastifyPlugin } from 'fastify-plugin'
 import { ServerError } from './server-error.js'
 
-export const errorHandler = Plugin()((server, options, done) => {
+export const errorHandler = fastifyPlugin((server, options, done) => {
     server.setSchemaErrorFormatter((errors) => {
         return new ServerError('Validation error', {
             code: 400,

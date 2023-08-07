@@ -1,5 +1,5 @@
-import { Static, TSchema } from '@sinclair/typebox'
-import { FastifySchema, InjectOptions } from 'fastify'
+import { Static, TSchema } from '@fastify/type-provider-typebox'
+import { FastifySchema } from 'fastify'
 
 export interface RouteSchema extends FastifySchema {
     body?: TSchema

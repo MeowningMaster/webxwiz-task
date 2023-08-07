@@ -13,20 +13,5 @@ log:
     console: true
     file: logs/main.log
 
-database:
-    host: localhost
-    port: 4306
-    database: main
-    user: admin
-    password: password
-
-mailer:
-    host: smtp.ethereal.email
-    port: 587
-    auth:
-        user: willis.grady@ethereal.email
-        pass: 8WAQYgceSW5MghHU7Y
-
-redis:
-    host: localhost
-    port: 7379
+mongo:
+    uri: mongodb://127.0.0.1:27017/main

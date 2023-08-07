@@ -1,4 +1,4 @@
-import { Type } from '@sinclair/typebox'
+import { Type } from '@fastify/type-provider-typebox'
 
 const Jwt = Type.Object({
     secret: Type.String(),
@@ -12,38 +12,18 @@ const Log = Type.Object({
 
 const Port = Type.Integer({ minimum: 1, maximum: 65535 })
 
-const Database = Type.Object({
-    host: Type.String(),
-    port: Port,
-    database: Type.String(),
-    user: Type.String(),
-    password: Type.String(),
-})
-
-const Mailer = Type.Object({
-    host: Type.String(),
-    port: Port,
-    auth: Type.Object({
-        user: Type.String(),
-        pass: Type.String(),
-    }),
-})
-
-const Redis = Type.Object({
-    host: Type.String(),
-    port: Type.Number(),
+const Mongo = Type.Object({
+    uri: Type.String({ format: 'uri' }),
 })
 
 export const Config = Type.Object({
-    port: Type.Integer({ minimum: 1, maximum: 65535 }),
+    port: Port,
     externalUrl: Type.String({ format: 'uri' }),
     trustProxy: Type.Boolean(),
     expose: Type.Boolean(),
     jwt: Jwt,
     log: Log,
-    database: Database,
-    mailer: Mailer,
-    redis: Redis,
+    mongo: Mongo,
 })
 
 export const PackageJson = Type.Object({

@@ -1,62 +1,49 @@
 import { ioc } from '#root/ioc/index.js'
-import { eq } from 'drizzle-orm'
 import { JwtPayload, Credentials } from './schema.js'
 import { ServerError } from '#root/error/server-error.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { Config } from '#root/config/index.js'
-import { Database } from '#root/services/database/index.js'
-import { user } from '#root/services/database/schema/user.js'
+import { Mongo } from '#root/services/mongo/index.js'
 
-export const Logic = ioc.add([Database, Config], (db, config) => {
+export const Logic = ioc.add([Config, Mongo], (config, mongo) => {
     return {
-        async register({ login, password }: Credentials) {
-            const existing = await db
-                .select()
-                .from(user)
-                .where(eq(user.login, login))
-            if (existing.length > 0) {
-                throw new ServerError('The login is already taken', {
+        async register({ email, password }: Credentials) {
+            const existsResult = await mongo.user.exists({ email })
+            if (existsResult !== null) {
+                throw new ServerError('The email is already taken', {
                     code: 400,
-                    context: { login },
+                    context: { email },
                 })
             }
 
             const salt = await bcrypt.genSalt()
             const passwordHash = await bcrypt.hash(password, salt)
 
-            const [result] = await db
-                .insert(user)
-                .values({ login, passwordHash })
-            return result.insertId
+            const { _id } = await mongo.user.create({ email, passwordHash })
+            return _id.toString()
         },
 
-        async login({ login, password }: Credentials) {
-            const [userRecord] = await db
-                .select()
-                .from(user)
-                .where(eq(user.login, login))
-            if (!userRecord) {
+        async login({ email, password }: Credentials) {
+            const user = await mongo.user.findOne({ email }).exec()
+            if (user === null) {
                 throw new ServerError('The user is not registed', {
                     code: 400,
-                    context: { login },
+                    context: { email },
                 })
             }
 
-            const permitted = await bcrypt.compare(
-                password,
-                userRecord.passwordHash,
-            )
+            const permitted = await bcrypt.compare(password, user.passwordHash)
             if (!permitted) {
                 throw new ServerError('The password is incorrect', {
                     code: 400,
-                    context: { login },
+                    context: { email },
                 })
             }
 
             const tokenPayload: JwtPayload = {
-                id: userRecord.id,
-                login,
+                id: user.id,
+                email,
             }
 
             return jwt.sign(tokenPayload, config.jwt.secret, {
@@ -64,8 +51,8 @@ export const Logic = ioc.add([Database, Config], (db, config) => {
             })
         },
 
-        async delete(userId: number) {
-            await db.delete(user).where(eq(user.id, userId))
+        async delete(email: string) {
+            await mongo.user.findOneAndDelete({ email }).exec()
         },
     }
 })

@@ -1,4 +1,4 @@
-import { TSchema, Type } from '@sinclair/typebox'
+import { TSchema, Type } from '@fastify/type-provider-typebox'
 
 export function Nullable<T extends TSchema>(schema: T) {
     return Type.Union([Type.Null(), schema])

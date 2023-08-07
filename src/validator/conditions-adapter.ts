@@ -5,7 +5,7 @@ import {
     TProperties,
     TSchema,
     Type,
-} from '@sinclair/typebox'
+} from '@fastify/type-provider-typebox'
 
 export type Conditions = Static<
     TObject<AdaptProperties<Record<string, TSchema>>>
