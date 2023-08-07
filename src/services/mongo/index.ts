@@ -1,11 +1,12 @@
 import { Config } from '#root/config/index.js'
 import { ioc } from '#root/ioc/index.js'
-import { Model, createConnection } from 'mongoose'
+import { InferSchemaType, Model, createConnection } from 'mongoose'
 import * as schemas from './schemas/index.js'
-import { Static } from '@fastify/type-provider-typebox'
 
 type Schemas = typeof schemas
-type Models = { [Key in keyof Schemas]: Model<Static<Schemas[Key]['Data']>> }
+type Models = {
+    [Key in keyof Schemas]: Model<InferSchemaType<Schemas[Key]['schema']>>
+}
 
 export const Mongo = ioc.add([Config], (config) => {
     const connection = createConnection(config.mongo.uri)
