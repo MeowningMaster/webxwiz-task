@@ -5,33 +5,38 @@ import { validator } from '#root/validator/index.js'
 import fastify from 'fastify'
 import { errorHandler } from '#root/error/error-handler.js'
 import { Injector } from './plugins/injector.js'
+import { GrapqlPlugin } from './plugins/graphql.js'
 
-export const Server = ioc.add([Config, Logger], async (config, log) => {
-    const server = fastify({
-        trustProxy: config.trustProxy,
-    })
-    server.setValidatorCompiler(({ schema }) => validator.compile(schema))
+export const Server = ioc.add(
+    [Config, Logger, GrapqlPlugin],
+    async (config, log, graphqlPlugin) => {
+        const server = fastify({
+            trustProxy: config.trustProxy,
+        })
+        server.setValidatorCompiler(({ schema }) => validator.compile(schema))
 
-    await server.register(errorHandler)
-    // await server.register(controllers, { prefix: '/v1' })
+        await server.register(errorHandler)
+        // await server.register(controllers, { prefix: '/v1' })
+        await server.register(graphqlPlugin)
 
-    return {
-        instance: server,
-        inject: Injector(server),
+        return {
+            instance: server,
+            inject: Injector(server),
 
-        async listen() {
-            const host = config.expose
-                ? '0.0.0.0' // all interfaces
-                : '127.0.0.1' // localhost
-            await server.listen({ port: config.port, host })
+            async listen() {
+                const host = config.expose
+                    ? '0.0.0.0' // all interfaces
+                    : '127.0.0.1' // localhost
+                await server.listen({ port: config.port, host })
 
-            log.info(
-                {
-                    local: `http://${host}:${config.port}`,
-                    external: config.externalUrl,
-                },
-                'Server listening',
-            )
-        },
-    }
-})
+                log.info(
+                    {
+                        local: `http://${host}:${config.port}`,
+                        external: config.externalUrl,
+                    },
+                    'Server listening',
+                )
+            },
+        }
+    },
+)
