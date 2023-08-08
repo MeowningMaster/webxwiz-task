@@ -5,19 +5,18 @@ import { validator } from '#root/validator/index.js'
 import fastify from 'fastify'
 import { errorHandler } from '#root/error/error-handler.js'
 import { Injector } from './plugins/injector.js'
-import { GrapqlPlugin } from './plugins/graphql.js'
+import { ControllersPlugin } from './plugins/controllers.js'
 
 export const Server = ioc.add(
-    [Config, Logger, GrapqlPlugin],
-    async (config, log, graphqlPlugin) => {
+    [Config, Logger, ControllersPlugin],
+    async (config, log, controllers) => {
         const server = fastify({
             trustProxy: config.trustProxy,
         })
         server.setValidatorCompiler(({ schema }) => validator.compile(schema))
 
         await server.register(errorHandler)
-        // await server.register(controllers, { prefix: '/v1' })
-        await server.register(graphqlPlugin)
+        await server.register(controllers, { prefix: '/v1' })
 
         return {
             instance: server,
