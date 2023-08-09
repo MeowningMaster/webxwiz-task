@@ -11,10 +11,10 @@ export const Resolver = ioc.add([Logic], (logic) => {
         },
     })
 
-    const RegisterReply = objectType({
-        name: 'RegisterReply',
+    const OkReply = objectType({
+        name: 'OkReply',
         definition(t) {
-            t.nonNull.string('id')
+            t.nonNull.boolean('ok')
         },
     })
 
@@ -35,20 +35,20 @@ export const Resolver = ioc.add([Logic], (logic) => {
 
     return {
         User,
-        RegisterReply,
+        OkReply,
         LoginReply,
         UserMutation: extendType({
             type: 'Mutation',
             definition: (t) => {
                 t.nonNull.field('register', {
-                    type: RegisterReply,
+                    type: OkReply,
                     args: {
                         email: nonNull(stringArg()),
                         password: nonNull(stringArg()),
                     },
-                    async resolve(_root, args) {
-                        const id = await logic.register(args)
-                        return { id }
+                    async resolve(root, args) {
+                        await logic.register(args)
+                        return { ok: true }
                     },
                 })
 
@@ -59,7 +59,7 @@ export const Resolver = ioc.add([Logic], (logic) => {
                         password: nonNull(stringArg()),
                         totpToken: stringArg(),
                     },
-                    async resolve(_root, args) {
+                    async resolve(root, args) {
                         const token = await logic.login(args)
                         return { token }
                     },
@@ -67,10 +67,28 @@ export const Resolver = ioc.add([Logic], (logic) => {
 
                 t.nonNull.field('changeTotp', {
                     type: ChangeTotpReply,
-                    async resolve() {
-                        return await logic.changeTotp(
-                            'meowningmaster@gmail.com',
+                    async authorize(root, args, ctx) {
+                        return ctx.email !== undefined
+                    },
+                    async resolve(root, args, ctx) {
+                        return await logic.changeTotp(ctx.email as string)
+                    },
+                })
+
+                t.nonNull.field('changePassword', {
+                    type: OkReply,
+                    args: {
+                        password: nonNull(stringArg()),
+                    },
+                    async authorize(root, args, ctx) {
+                        return ctx.email !== undefined
+                    },
+                    async resolve(root, args, ctx) {
+                        await logic.changePassword(
+                            ctx.email as string,
+                            args.password,
                         )
+                        return { ok: true }
                     },
                 })
             },

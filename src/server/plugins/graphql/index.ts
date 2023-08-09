@@ -7,10 +7,12 @@ import fastifyApollo, {
 } from '@as-integrations/fastify'
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
 import type { Context } from './context.cjs'
+import jwt from 'jsonwebtoken'
+import { Config } from '#root/config/index.ts'
 
 export const GraphQlPlugin = ioc.add(
-    [Resolvers],
-    (schema): FastifyPluginAsyncTypebox =>
+    [Resolvers, Config],
+    (schema, config): FastifyPluginAsyncTypebox =>
         async (server) => {
             const apollo = new ApolloServer<Context>({
                 schema,
@@ -25,10 +27,19 @@ export const GraphQlPlugin = ioc.add(
             const context: ApolloFastifyContextFunction<Context> = async (
                 request,
                 reply,
-            ) => ({
-                request,
-                reply,
-            })
+            ) => {
+                const { authorization } = request.headers
+                let email: string | undefined
+                if (authorization) {
+                    const token = authorization.substring('Bearer '.length)
+                    const payload = jwt.verify(token, config.jwt.secret) as {
+                        email: string
+                    }
+                    email = payload.email
+                }
+
+                return { request, reply, email }
+            }
             await server.register(fastifyApollo(apollo), {
                 context,
             })

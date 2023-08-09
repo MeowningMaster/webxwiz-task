@@ -20,9 +20,7 @@ export const Logic = ioc.add([Config, Mongo], (config, mongo) => {
                 })
             }
 
-            const salt = await bcrypt.genSalt()
-            const passwordHash = await bcrypt.hash(password, salt)
-
+            const passwordHash = await PasswordHash(password)
             const { _id } = await mongo.user.create({ email, passwordHash })
             return _id.toString()
         },
@@ -97,6 +95,13 @@ export const Logic = ioc.add([Config, Mongo], (config, mongo) => {
             const qrCode = await QRCode.toDataURL(totp.toString())
             return { uri, qrCode }
         },
+
+        async changePassword(email: string, password: string) {
+            const passwordHash = await PasswordHash(password)
+            await mongo.user
+                .findOneAndUpdate({ email }, { passwordHash })
+                .exec()
+        },
     }
 })
 
@@ -105,4 +110,9 @@ function Totp(secret: string) {
         label: 'Tester',
         secret: Secret.fromUTF8(secret),
     })
+}
+
+async function PasswordHash(password: string) {
+    const salt = await bcrypt.genSalt()
+    return await bcrypt.hash(password, salt)
 }
