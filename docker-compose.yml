@@ -6,30 +6,17 @@ services:
         ports:
             - '5000:5000'
         depends_on:
-            - db
-            - redis
+            - mongo
 
-    db:
-        image: mysql:latest
-        restart: always
+    mongo:
+        image: mongo:latest
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongo_data:/data/db
         environment:
-            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root-password}
-            MYSQL_DATABASE: ${DB_NAME:-main}
-            MYSQL_USER: ${DB_USER:-admin}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-password}
-        ports:
-            - '3306:3306'
-        volumes:
-            - mysql-data:/var/lib/mysql
-
-    redis:
-        image: redis:latest
-        restart: always
-        ports:
-            - '6379:6379'
-        volumes:
-            - redis-data:/data
+            MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_PASSWORD:-root}
+            MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
 
 volumes:
-    mysql-data:
-    redis-data:
+    mongo_data:

@@ -4,12 +4,11 @@
     "version": "1.0.0",
     "type": "module",
     "imports": {
-        "#root/*": "./dist/*"
+        "#root/*": "./src/*"
     },
     "scripts": {
-        "build": "tsc",
-        "launch": "node dist/main.js",
-        "start": "run-s build launch",
+        "types": "tsc --noEmit",
+        "start": "tsx src/main.ts",
         "format": "prettier --write src/**/*.ts",
         "test": "vitest run",
         "test-components": "vitest run --dir ./src/components"
@@ -33,7 +32,8 @@
         "pino": "^8.15.0",
         "pino-pretty": "^10.2.0",
         "qrcode": "^1.5.3",
-        "yaml": "^2.3.1"
+        "yaml": "^2.3.1",
+        "tsx": "^3.12.7"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
@@ -42,7 +42,6 @@
         "@types/qrcode": "^1.5.1",
         "npm-run-all": "^4.1.5",
         "prettier": "^3.0.1",
-        "tsx": "^3.12.7",
         "typescript": "^5.1.6",
         "vitest": "^0.34.1"
     }
