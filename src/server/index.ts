@@ -5,10 +5,10 @@ import { validator } from '#root/validator/index.js'
 import fastify from 'fastify'
 import { errorHandler } from '#root/error/error-handler.js'
 import { Injector } from './plugins/injector.js'
-import { ControllersPlugin } from './plugins/controllers.js'
+import { GraphQlPlugin } from './plugins/graphql.js'
 
 export const Server = ioc.add(
-    [Config, Logger, ControllersPlugin],
+    [Config, Logger, GraphQlPlugin],
     async (config, log, controllers) => {
         const server = fastify({
             trustProxy: config.trustProxy,

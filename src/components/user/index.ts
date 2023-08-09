@@ -1,3 +1,3 @@
 export * from './logic.js'
-export * from './controller.js'
-export * from './controller.js'
+export * from './resolver.js'
+export * from './resolver.js'

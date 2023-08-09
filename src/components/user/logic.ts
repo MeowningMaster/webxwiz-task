@@ -44,9 +44,9 @@ export const Logic = ioc.add([Config, Mongo], (config, mongo) => {
                 })
             }
 
-            if (totpToken) {
-                if (user.totpSecret === undefined) {
-                    throw new ServerError('The user has no totp secret', {
+            if (user.totpSecret !== undefined) {
+                if (!totpToken) {
+                    throw new ServerError('A totp token should be provided', {
                         code: 400,
                         context: { email },
                     })

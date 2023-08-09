@@ -1,13 +1,13 @@
 import { ioc } from '#root/ioc/index.js'
 import { ApolloServer } from '@apollo/server'
-import { Controllers } from '#root/components/index.js'
+import { Resolvers } from '#root/components/index.js'
 import fastifyApollo, {
     fastifyApolloDrainPlugin,
 } from '@as-integrations/fastify'
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
 
-export const ControllersPlugin = ioc.add(
-    [Controllers],
+export const GraphQlPlugin = ioc.add(
+    [Resolvers],
     (schema): FastifyPluginAsyncTypebox =>
         async (server) => {
             const apollo = new ApolloServer({

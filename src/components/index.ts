@@ -3,13 +3,13 @@ import { makeSchema } from 'nexus'
 import * as user from './user/index.js'
 import { resolve } from 'node:path'
 
-export type Components = keyof typeof components
-export const components = { user } satisfies Record<string, { Controller: any }>
+export type Resolvers = keyof typeof resolvers
+export const resolvers = { user } satisfies Record<string, { Resolver: any }>
 
-const controllers = Object.entries(components)
+const controllers = Object.entries(resolvers)
 
-export const Controllers = ioc.add(
-    controllers.map(([, { Controller }]) => Controller),
+export const Resolvers = ioc.add(
+    controllers.map(([, { Resolver }]) => Resolver),
     (...types) => {
         return makeSchema({
             types: types.filter((type) => type !== ioc.disabled),

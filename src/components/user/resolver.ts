@@ -2,7 +2,7 @@ import { ioc } from '#root/ioc/index.js'
 import { extendType, nonNull, objectType, stringArg } from 'nexus'
 import { Logic } from './logic.js'
 
-export const Controller = ioc.add([Logic], (logic) => {
+export const Resolver = ioc.add([Logic], (logic) => {
     const User = objectType({
         name: 'User',
         definition(t) {

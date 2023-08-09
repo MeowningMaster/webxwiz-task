@@ -1,8 +1,8 @@
 import { Services } from '#root/services/index.js'
 import { Container, Provider } from './index.js'
 import {
-    Components,
-    components as componentsMap,
+    Resolvers,
+    resolvers as componentsMap,
 } from '#root/components/index.js'
 import { services as servicesMap } from '#root/services/index.js'
 
@@ -10,7 +10,7 @@ import { services as servicesMap } from '#root/services/index.js'
 export function partial(
     ioc: Container,
     options: {
-        components?: Components[]
+        components?: Resolvers[]
         services?: Services[]
     } = {},
 ) {
