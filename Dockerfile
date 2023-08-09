@@ -6,5 +6,5 @@ COPY package.json pnpm-lock.yaml ./
 COPY config.docker.yaml ./config.yaml
 RUN pnpm install --frozen-lockfile --prod
 
-EXPOSE 5000
+EXPOSE 6000
 CMD ["pnpm", "tsx", "./src/main.ts"]
