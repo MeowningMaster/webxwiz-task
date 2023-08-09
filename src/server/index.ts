@@ -5,7 +5,7 @@ import { validator } from '#root/validator/index.js'
 import fastify from 'fastify'
 import { errorHandler } from '#root/error/error-handler.js'
 import { Injector } from './plugins/injector.js'
-import { GraphQlPlugin } from './plugins/graphql.js'
+import { GraphQlPlugin } from './plugins/graphql/index.js'
 
 export const Server = ioc.add(
     [Config, Logger, GraphQlPlugin],

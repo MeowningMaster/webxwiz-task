@@ -1,5 +1,6 @@
 import { ioc } from '#root/ioc/index.js'
 import { makeSchema } from 'nexus'
+import nexus from 'nexus'
 import * as user from './user/index.js'
 import { resolve } from 'node:path'
 
@@ -14,12 +15,14 @@ export const Resolvers = ioc.add(
         return makeSchema({
             types: types.filter((type) => type !== ioc.disabled),
             outputs: {
-                typegen: resolve('src', 'nexus-typegen.ts'),
+                typegen: resolve('src/generated/nexus-typegen.cts'),
+                schema: resolve('src/generated/schema.graphql'),
             },
-            // contextType: {
-            //     module: resolve('src', 'context.ts'),
-            //     export: 'Context',
-            // },
+            plugins: [nexus.fieldAuthorizePlugin()],
+            contextType: {
+                module: resolve('src/server/plugins/graphql/context.cts'),
+                export: 'Context',
+            },
         })
     },
 )
