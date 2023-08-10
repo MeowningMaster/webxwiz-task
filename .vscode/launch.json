@@ -5,13 +5,16 @@
             "type": "node",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/dist/main.js",
+            "program": "${workspaceFolder}/src/main.ts",
+            "runtimeArgs": [
+                "--loader",
+                "tsx"
+            ],
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
-            "preLaunchTask": "build",
             "sourceMaps": true
         }
     ]
