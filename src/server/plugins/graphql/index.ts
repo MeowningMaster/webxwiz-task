@@ -9,14 +9,18 @@ import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
 import type { Context } from './context.cjs'
 import jwt from 'jsonwebtoken'
 import { Config } from '#root/config/index.ts'
+import { QueryComplexityPlugin } from './query-complexity.ts'
 
 export const GraphQlPlugin = ioc.add(
-    [Resolvers, Config],
-    (schema, config): FastifyPluginAsyncTypebox =>
+    [Resolvers, Config, QueryComplexityPlugin],
+    (schema, config, queryComplexityPlugin): FastifyPluginAsyncTypebox =>
         async (server) => {
             const apollo = new ApolloServer<Context>({
                 schema,
-                plugins: [fastifyApolloDrainPlugin(server)],
+                plugins: [
+                    fastifyApolloDrainPlugin(server),
+                    queryComplexityPlugin,
+                ],
                 formatError(formatedError, error) {
                     return formatedError
                     // todo

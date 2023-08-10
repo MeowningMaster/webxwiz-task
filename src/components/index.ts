@@ -18,7 +18,10 @@ export const Resolvers = ioc.add(
                 typegen: resolve('src/generated/nexus-typegen.cts'),
                 schema: resolve('src/generated/schema.graphql'),
             },
-            plugins: [nexus.fieldAuthorizePlugin()],
+            plugins: [
+                nexus.fieldAuthorizePlugin(),
+                nexus.queryComplexityPlugin(),
+            ],
             contextType: {
                 module: resolve('src/server/plugins/graphql/context.cts'),
                 export: 'Context',

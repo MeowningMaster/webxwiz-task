@@ -6,8 +6,7 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "Node16",
-        "sourceMap": true,
-        "outDir": "./dist",
+        "noEmit": true,
         "strict": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,

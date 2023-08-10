@@ -38,6 +38,9 @@ dependencies:
   graphql:
     specifier: ^16.7.1
     version: 16.7.1
+  graphql-query-complexity:
+    specifier: ^0.12.0
+    version: 0.12.0(graphql@16.7.1)
   jsonwebtoken:
     specifier: ^9.0.1
     version: 9.0.1
@@ -1873,6 +1876,15 @@ packages:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: true
 
+  /graphql-query-complexity@0.12.0(graphql@16.7.1):
+    resolution: {integrity: sha512-fWEyuSL6g/+nSiIRgIipfI6UXTI7bAxrpPlCY1c0+V3pAEUo1ybaKmSBgNr1ed2r+agm1plJww8Loig9y6s2dw==}
+    peerDependencies:
+      graphql: ^14.6.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.7.1
+      lodash.get: 4.4.2
+    dev: false
+
   /graphql@16.7.1:
     resolution: {integrity: sha512-DRYR9tf+UGU0KOsMcKAlXeFfX89UiiIZ0dRU3mR0yJfu6OjZqUcp68NnFLnqQU5RexygFoDy1EW+ccOYcPfmHg==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
@@ -2169,6 +2181,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-locate: 4.1.0
+    dev: false
+
+  /lodash.get@4.4.2:
+    resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
     dev: false
 
   /lodash.sortby@4.7.0:
