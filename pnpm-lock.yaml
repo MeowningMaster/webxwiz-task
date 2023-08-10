@@ -41,6 +41,9 @@ dependencies:
   graphql-query-complexity:
     specifier: ^0.12.0
     version: 0.12.0(graphql@16.7.1)
+  graphql-request:
+    specifier: ^6.1.0
+    version: 6.1.0(graphql@16.7.1)
   jsonwebtoken:
     specifier: ^9.0.1
     version: 9.0.1
@@ -70,6 +73,9 @@ dependencies:
     version: 2.3.1
 
 devDependencies:
+  '@faker-js/faker':
+    specifier: ^8.0.2
+    version: 8.0.2
   '@types/bcryptjs':
     specifier: ^2.4.2
     version: 2.4.2
@@ -705,6 +711,11 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@faker-js/faker@8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: true
 
   /@fastify/ajv-compiler@3.5.0:
     resolution: {integrity: sha512-ebbEtlI7dxXF5ziNdr05mOY8NnDiPB1XvAlLHctRt/Rc+C3LCOVW5imUVX+mhvUhnNzmPBHewUkOFgGlCxgdAA==}
@@ -1351,6 +1362,14 @@ packages:
       vary: 1.1.2
     dev: false
 
+  /cross-fetch@3.1.8:
+    resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}
+    dependencies:
+      node-fetch: 2.6.12
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /cross-spawn@6.0.5:
     resolution: {integrity: sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==}
     engines: {node: '>=4.8'}
@@ -1883,6 +1902,18 @@ packages:
     dependencies:
       graphql: 16.7.1
       lodash.get: 4.4.2
+    dev: false
+
+  /graphql-request@6.1.0(graphql@16.7.1):
+    resolution: {integrity: sha512-p+XPfS4q7aIpKVcgmnZKhMNqhltk20hfXtkaIkTfjjmiKMJ5xrt5c743cL03y/K7y1rg3WrIC49xGiEQ4mxdNw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.7.1)
+      cross-fetch: 3.1.8
+      graphql: 16.7.1
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /graphql@16.7.1:

@@ -6,6 +6,7 @@ import fastify from 'fastify'
 import { errorHandler } from '#root/error/error-handler.js'
 import { Injector } from './plugins/injector.js'
 import { GraphQlPlugin } from './plugins/graphql/index.js'
+import { GraphQlInjector } from './plugins/graphql/injector.ts'
 
 export const Server = ioc.add(
     [Config, Logger, GraphQlPlugin],
@@ -18,9 +19,13 @@ export const Server = ioc.add(
         await server.register(errorHandler)
         await server.register(controllers, { prefix: '/v1' })
 
+        const inject = Injector(server)
+        const injectGraphql = GraphQlInjector(inject)
+
         return {
             instance: server,
-            inject: Injector(server),
+            inject,
+            injectGraphql,
 
             async listen() {
                 const host = config.expose

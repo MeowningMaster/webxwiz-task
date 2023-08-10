@@ -6,6 +6,7 @@ export type RouteInjectOptions<T extends FastifySchema = FastifySchema> =
         body?: T['body']
     }
 
+export type Injector = ReturnType<typeof Injector>
 /** Request fastify from tests */
 export function Injector(server: FastifyInstance) {
     return async <Schema extends FastifySchema = FastifySchema>(
@@ -43,6 +44,6 @@ export function Injector(server: FastifyInstance) {
     }
 }
 
-function isOk(code: number) {
+export function isOk(code: number) {
     return code >= 200 && code < 300
 }
