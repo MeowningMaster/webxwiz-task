@@ -16,6 +16,7 @@ Server is hosted on Digital Ocean. Visit [Apollo Studio](http://146.190.178.107:
 - Server via [Fastify](https://fastify.dev/)
 - Graphql server via [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
 - Graphql schema via [Nexus.js](https://nexusjs.org/)
+- Query complexity estimation via [graphql-query-complexity](https://github.com/slicknode/graphql-query-complexity)
 - Logging via [pino](https://getpino.io/)
 - Simple [inverse on control container](./src/ioc/index.ts)
   - clean server components structure with automatic resolution
