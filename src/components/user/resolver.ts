@@ -29,7 +29,9 @@ export const Resolver = ioc.add([Logic], (logic) => {
         name: 'ChangeTotpReply',
         definition(t) {
             t.nonNull.string('uri')
-            t.nonNull.string('qrCode')
+            t.nonNull.string('qrCode', {
+                description: 'data url representation of the qr code image',
+            })
         },
     })
 
@@ -54,6 +56,7 @@ export const Resolver = ioc.add([Logic], (logic) => {
 
                 t.nonNull.field('login', {
                     type: LoginReply,
+                    description: 'Totp token is required if totp is enabled',
                     args: {
                         email: nonNull(stringArg()),
                         password: nonNull(stringArg()),
